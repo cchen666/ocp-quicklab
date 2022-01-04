@@ -1,7 +1,6 @@
 package lab
 
 import (
-	"os"
 	"os/exec"
 	"time"
 
@@ -20,16 +19,16 @@ func alwaysFlush(ch chan int, c echo.Context) {
 		case <-ch:
 			return
 		default:
-			time.Sleep(100 * time.Millisecond)
 			c.Response().Flush()
+			time.Sleep(500 * time.Millisecond)
 		}
 	}
 }
 
-func runBash(command string, c echo.Context) {
+func runBash(command string, c echo.Context) string {
+	writeString("Running "+command, c)
 	ch := make(chan int)
 	go alwaysFlush(ch, c)
-	writeString("Running "+command, c)
 	cmd := exec.Command("/bin/bash", "-c", command)
 	// Redirect the stdout and stderr to ioWriter of echo
 	cmd.Stdout = c.Response()
@@ -37,12 +36,15 @@ func runBash(command string, c echo.Context) {
 	err := cmd.Run()
 	if err != nil {
 		c.Response().Write([]byte(err.Error()))
-		os.Exit(1)
+		// Stop the goroutine
+		ch <- 1
+		return "Failure"
 	}
 	// Stop the goroutine
 	ch <- 1
 	writeString("Finished "+command, c)
 	close(ch)
+	return "Success"
 }
 
 func writeString(s string, c echo.Context) {
