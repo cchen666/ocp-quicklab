@@ -32,7 +32,8 @@ func deployInstaller(version string, c echo.Context) {
 	//var runInstaller = "./openshift-install create cluster --dir=/tmp/openshift/" + version
 }
 
-func TestCLI(c echo.Context) {
+func TestCLI(c echo.Context) string {
 	var commandLine = "ping -c4 8.8.8.8"
 	runBash(commandLine, c)
+	return "Finished running TestCLI \n"
 }
