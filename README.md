@@ -54,6 +54,8 @@ LabList Done
 
 ~~~bash
 
+# Make sure you do list first to confirm the version
+
 $ curl <IP address>:<port>/install/<version>
 
 $ curl 127.0.0.1:1323/delete/4.8.24
