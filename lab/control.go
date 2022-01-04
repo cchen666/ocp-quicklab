@@ -44,8 +44,6 @@ func deployInstaller(version string, c echo.Context) {
 	runBash(mkdirWorkingDir, c)
 	var copyInstallYaml = "cp /tmp/install-config.yaml " + "/tmp/openshift/" + version
 	runBash(copyInstallYaml, c)
-	// var runInstaller = "./openshift-install create cluster --dir=/tmp/openshift/" + version
-	// runBash(runInstaller, c)
 }
 
 func install(version string, c echo.Context) {
