@@ -22,10 +22,6 @@ func labList(c echo.Context) error {
 	return c.String(http.StatusOK, lab.LabList(c))
 }
 
-func testCLI(c echo.Context) error {
-	return c.String(http.StatusOK, lab.TestCLI(c))
-}
-
 func main() {
 	// Echo instance
 	e := echo.New()
@@ -37,7 +33,6 @@ func main() {
 	e.GET("/install/:version", labInstall)
 	e.GET("/delete/:version", labDelete)
 	e.GET("/list", labList)
-	e.GET("/testcli", testCLI)
 	// Start server
 	e.Logger.Fatal(e.Start(":1323"))
 }

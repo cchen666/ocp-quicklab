@@ -2,57 +2,57 @@ package lab
 
 import "github.com/labstack/echo/v4"
 
-type Cluster struct {
-	URL      string
-	Password string
-	Version  string
-}
-
 var mirrorURL = "https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/"
-var packageName = "openshift-install-mac.tar.gz"
+var packageName = "openshift-install-linux.tar.gz"
+var baseDir = "/root/openshift/"
+var globalVersion = ""
 
 func LabInstall(version string, c echo.Context) string {
 	deployInstaller(version, c)
 	install(version, c)
+	globalVersion = version
 	return "LabInstall Done \n"
 }
 
 func LabDelete(version string, c echo.Context) string {
-	var deleteCluster = "./openshift-install destroy cluster --dir=/tmp/openshift/" + version
+	var workingDir = baseDir + version + "/"
+	var deleteCluster = workingDir + "openshift-install destroy cluster --dir=" + workingDir
 	runBash(deleteCluster, c)
+	globalVersion = ""
 	return "LabDelete Done \n"
 }
 
 func LabList(c echo.Context) string {
-	var deleteCluster = "grep 'Install complete' -A3 /tmp/openshift/*/.openshift_install.log"
-	runBash(deleteCluster, c)
-	return "LabList Done \n"
+	if globalVersion != "" {
+		var listCluster = "grep 'Install complete' -A3 .openshift_install.log"
+		runBash(listCluster, c)
+		return "LabList Done \n"
+	}
+	return "Failed to List because we don't have installed cluster"
+
 }
 
 func deployInstaller(version string, c echo.Context) {
-	var rmPackage = "rm -rf openshift-install*"
+	var workingDir = baseDir + version + "/"
+	var mkdirWorkingDir = "mkdir -p " + workingDir
+	runBash(mkdirWorkingDir, c)
+	var copyInstallYaml = "cp /root/install-config.yaml " + workingDir
+	runBash(copyInstallYaml, c)
+	var rmPackage = "rm -rf " + workingDir + "openshift-install*"
 	runBash(rmPackage, c)
-	var downloadPackage = "wget " + mirrorURL + version + "/" + packageName
+	var downloadPackage = "wget -O " + workingDir + "openshift-install-tar.gz " + mirrorURL + version + "/" + packageName
 	for i := 0; i < 5; i++ {
 		if runBash(downloadPackage, c) == "Success" {
 			break
 		}
 	}
-	var extractInstaller = "tar xvf openshift-install-mac.tar.gz"
+	var extractInstaller = "tar xvf " + workingDir + "openshift-install-tar.gz" + " -C " + workingDir
 	runBash(extractInstaller, c)
-	var mkdirWorkingDir = "mkdir -p " + "/tmp/openshift/" + version
-	runBash(mkdirWorkingDir, c)
-	var copyInstallYaml = "cp /tmp/install-config.yaml " + "/tmp/openshift/" + version
-	runBash(copyInstallYaml, c)
+
 }
 
 func install(version string, c echo.Context) {
-	var runInstaller = "./openshift-install create cluster --dir=/tmp/openshift/" + version
+	var workingDir = baseDir + version + "/"
+	var runInstaller = workingDir + "openshift-install create cluster --dir=" + workingDir
 	runBash(runInstaller, c)
-}
-
-func TestCLI(c echo.Context) string {
-	var commandLine = "ping -c4 8.8.8.8"
-	runBash(commandLine, c)
-	return "Finished running TestCLI \n"
 }
