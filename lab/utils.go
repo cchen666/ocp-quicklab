@@ -36,8 +36,10 @@ func runBash(command string, c echo.Context) string {
 	err := cmd.Run()
 	if err != nil {
 		c.Response().Write([]byte(err.Error()))
-		// Stop the goroutine to avoid SIGSEGV
+		// Stop the goroutine
 		ch <- 1
+		//log.Fatalf("Error %s", command, err)
+		close(ch)
 		return "Failure"
 	}
 	// Stop the goroutine
