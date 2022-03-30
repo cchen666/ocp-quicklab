@@ -1,18 +1,21 @@
-# OpenShift Install
+# OCP-QuickLab
 
-The OpenShift installer `openshift-install` makes it easy to get a cluster
-running on the public cloud or your local infrastructure.
+## Usage
 
-To learn more about installing OpenShift, visit [docs.openshift.com](https://docs.openshift.com)
-and select the version of OpenShift you are using.
+### Install
 
-## Installing the tools
+~~~bash
 
-After extracting this archive, you can move the `openshift-install` binary
-to a location on your PATH such as `/usr/local/bin`, or keep it in a temporary
-directory and reference it via `./openshift-install`.
+$ curl <server>:<port>/install/<version>
 
-## License
+$ curl 10.72.46.240:1323/install/4.8.18
 
-OpenShift is licensed under the Apache Public License 2.0. The source code for this
-program is [located on github](https://github.com/openshift/installer).
+Running tar xvf /root/openshift/4.8.18/openshift-install-tar.gz -C /root/openshift/4.8.18/
+README.md
+openshift-install
+Finished tar xvf /root/openshift/4.8.18/openshift-install-tar.gz -C /root/openshift/4.8.18/
+Running /root/openshift/4.8.18/openshift-install create cluster --dir=/root/openshift/4.8.18/
+level=info msg=Credentials loaded from the "default" profile in file "/root/.aws/credentials"
+level=info msg=Consuming Install Config from target directory
+
+~~~

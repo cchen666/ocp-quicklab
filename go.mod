@@ -11,6 +11,7 @@ require (
 	github.com/labstack/gommon v0.3.0 // indirect
 	github.com/mattn/go-colorable v0.1.8 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
+	github.com/sirupsen/logrus v1.8.1
 	// github.com/pmezard/go-difflib v1.0.0 // indirect
 	// github.com/stretchr/objx v0.1.0 // indirect
 	// github.com/stretchr/testify v1.4.0 // indirect
@@ -22,7 +23,7 @@ require (
 	// golang.org/x/term v0.0.0-20201126162022-7de9c90e9dd1 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20201208040808-7e3f01d25324 // indirect
-	// golang.org/x/tools v0.0.0-20180917221912-90fa682c2a6e // indirect
-	// gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 // indirect
-	// gopkg.in/yaml.v2 v2.2.2 // indirect
+// golang.org/x/tools v0.0.0-20180917221912-90fa682c2a6e // indirect
+// gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 // indirect
+// gopkg.in/yaml.v2 v2.2.2 // indirect
 )
