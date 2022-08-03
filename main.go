@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	db "ocp-quicklab/db"
 	service "ocp-quicklab/service"
 	"os"
 
@@ -29,9 +30,13 @@ func labTest(c echo.Context) error {
 	return c.String(http.StatusOK, service.LabTest(c))
 }
 
+func dbTest(c echo.Context) error {
+	return c.String(http.StatusOK, db.Connect())
+}
+
 func main() {
 	// Echo instance
-	file, err := os.OpenFile("/var/log/ocp-quicklab.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	file, err := os.OpenFile(".ocp-quicklab.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -46,6 +51,7 @@ func main() {
 	e.GET("/delete/:version", labDelete)
 	e.GET("/test", labTest)
 	e.GET("/list", labList)
+	e.GET("/dbtest", dbTest)
 	// Start server
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(":1333"))
 }
