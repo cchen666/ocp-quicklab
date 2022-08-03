@@ -2,7 +2,7 @@ package main
 
 import (
 	"net/http"
-	"ocp-quicklab/lab"
+	service "ocp-quicklab/service"
 	"os"
 
 	log "github.com/sirupsen/logrus"
@@ -13,20 +13,20 @@ import (
 
 func labInstall(c echo.Context) error {
 	version := c.Param("version")
-	return c.String(http.StatusOK, lab.LabInstall(version, c))
+	return c.String(http.StatusOK, service.LabInstall(version, c))
 }
 
 func labDelete(c echo.Context) error {
 	version := c.Param("version")
-	return c.String(http.StatusOK, lab.LabDelete(version, c))
+	return c.String(http.StatusOK, service.LabDelete(version, c))
 }
 
 func labList(c echo.Context) error {
-	return c.String(http.StatusOK, lab.LabList(c))
+	return c.String(http.StatusOK, service.LabList(c))
 }
 
 func labTest(c echo.Context) error {
-	return c.String(http.StatusOK, lab.LabTest(c))
+	return c.String(http.StatusOK, service.LabTest(c))
 }
 
 func main() {

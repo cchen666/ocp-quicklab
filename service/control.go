@@ -1,4 +1,4 @@
-package lab
+package service
 
 import (
 	"bufio"
