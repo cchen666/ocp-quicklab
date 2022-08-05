@@ -2,24 +2,31 @@ package db
 
 import (
 	"database/sql"
-	"log"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 var db *sql.DB
 
-func Connect() string {
-	// Get a database handle.
-	var err error
-	db, err = sql.Open("mysql", "user:pass@tcp(127.0.0.1:3306)/db")
-	if err != nil {
-		log.Fatal(err)
+func Connect() (*sql.DB, error) {
+	var conErr error
+	c_string := "user:pass@tcp(10.72.94.119:3305)/db"
+	db, conErr = sql.Open("mysql", c_string)
+	if conErr != nil {
+		return db, conErr
 	}
 
 	pingErr := db.Ping()
 	if pingErr != nil {
-		return pingErr.Error()
+		return db, pingErr
 	}
-	return "Connected!"
+	return db, nil
+}
+
+func Test() string {
+	_, err := Connect()
+	if err != nil {
+		return err.Error()
+	}
+	return "succeeded"
 }

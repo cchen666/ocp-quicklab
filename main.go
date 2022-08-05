@@ -31,7 +31,7 @@ func labTest(c echo.Context) error {
 }
 
 func dbTest(c echo.Context) error {
-	return c.String(http.StatusOK, db.Connect())
+	return c.String(http.StatusOK, db.Test())
 }
 
 func main() {
